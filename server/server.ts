@@ -3,6 +3,7 @@ import 'dotenv/config';
 import express from 'express';
 import pg from 'pg';
 import { ClientError, errorMiddleware } from './lib/index.js';
+import { nextTick } from 'process';
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -31,6 +32,7 @@ app.get('/api/hello', (req, res) => {
  * It responds with `index.html` to support page refreshes with React Router.
  * This must be the _last_ route, just before errorMiddleware.
  */
+
 app.get('*', (req, res) => res.sendFile(`${reactStaticDir}/index.html`));
 
 app.use(errorMiddleware);
