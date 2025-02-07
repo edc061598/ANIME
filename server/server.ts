@@ -3,6 +3,7 @@ import 'dotenv/config';
 import express from 'express';
 import pg from 'pg';
 import { ClientError, errorMiddleware } from './lib/index.js';
+import jwt from 'jsonwebtoken';
 import { nextTick } from 'process';
 
 const db = new pg.Pool({
@@ -25,6 +26,21 @@ app.use(express.json());
 
 app.get('/api/hello', (req, res) => {
   res.json({ message: 'Hello, World!' });
+});
+
+app.get('/api/anime', async (req, res, next) => {
+  try {
+    const sql = `
+  select *
+  from "shows"
+  order by "rating" desc
+  `;
+    const result = await db.query(sql);
+    const animeShows = result.rows;
+    res.status(200).json(animeShows);
+  } catch (err) {
+    next(err);
+  }
 });
 
 /*
