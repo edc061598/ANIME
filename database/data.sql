@@ -6,11 +6,11 @@ INSERT INTO "users" ("userName", "email", "passwordHash") VALUES
 
 -- Insert sample anime shows
 INSERT INTO "shows" ("title", "description", "image", "rating") VALUES
-('Attack on Titan', 'Humanity fights for survival against man-eating Titans.', 'https://example.com/aot.jpg', 9.1),
-('Death Note', 'A student discovers a notebook that lets him kill anyone.', 'https://example.com/deathnote.jpg', 9.0),
-('Naruto', 'A young ninja seeks recognition and dreams of becoming Hokage.', 'https://example.com/naruto.jpg', 8.6),
-('One Piece', 'A young pirate sets out to find the legendary One Piece.', 'https://example.com/onepiece.jpg', 9.2),
-('Fullmetal Alchemist: Brotherhood', 'Two brothers use alchemy to search for the Philosopher’s Stone.', 'https://example.com/fma.jpg', 9.4),
+('Attack on Titan', 'Humanity fights for survival against man-eating Titans.', 'https://images.hdqwalls.com/download/attack-on-titan-season-4-ve-1366x768.jpg', 9.1),
+('Death Note', 'A student discovers a notebook that lets him kill anyone.', 'https://wallpaperaccess.com/full/2026164.jpg', 9.0),
+('Naruto', 'A young ninja seeks recognition and dreams of becoming Hokage.', 'https://wallpapercave.com/wp/XWazbNG.jpg', 8.6),
+('One Piece', 'A young pirate sets out to find the legendary One Piece.', 'https://wallpapercave.com/wp/xJ49b9L.jpg', 9.2),
+('Fullmetal Alchemist: Brotherhood', 'Two brothers use alchemy to search for the Philosopher’s Stone.', 'https://wallpaperaccess.com/full/1084967.jpg', 9.4),
 ('Demon Slayer', 'A boy joins a demon-slaying corps to avenge his family.', 'https://example.com/demonslayer.jpg', 8.7),
 ('Jujutsu Kaisen', 'A student joins a secret organization to battle cursed spirits.', 'https://example.com/jujutsukaisen.jpg', 8.8),
 ('My Hero Academia', 'A boy born without superpowers enrolls in a hero academy.', 'https://example.com/mha.jpg', 8.5),

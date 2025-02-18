@@ -43,6 +43,23 @@ app.get('/api/anime', async (req, res, next) => {
   }
 });
 
+app.get('/api/anime/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const sql = `
+    select *
+    from "shows"
+    where "showId" = $1;
+    `;
+    const params = [id];
+    const result = await db.query(sql, params);
+    const animeShowId = result.rows[0];
+    res.status(200).json(animeShowId);
+  } catch(err){
+    next(err);
+  }
+});
+
 /*
  * Handles paths that aren't handled by any other route handler.
  * It responds with `index.html` to support page refreshes with React Router.
