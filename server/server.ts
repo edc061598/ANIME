@@ -5,6 +5,7 @@ import pg from 'pg';
 import { ClientError, errorMiddleware } from './lib/index.js';
 import jwt from 'jsonwebtoken';
 import { nextTick } from 'process';
+import { markAsUntransferable } from 'worker_threads';
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -55,6 +56,55 @@ app.get('/api/anime/:id', async (req, res, next) => {
     const result = await db.query(sql, params);
     const animeShowId = result.rows[0];
     res.status(200).json(animeShowId);
+  } catch(err){
+    next(err);
+  }
+});
+
+app.post('/api/favorites/:userId', async(req, res, next) => {
+  try {
+    const {showId} = req.body;
+    const userId = req.params.userId;
+    if (
+      Number.isNaN(userId) ||
+      !Number.isInteger(+userId) ||
+      Number(userId) < 1
+    ) {
+      throw new ClientError(400, 'Invalid userId.');
+    }
+    if (
+      Number.isNaN(showId) ||
+      !Number.isInteger(+showId) ||
+      Number(showId) < 1
+    ) {
+      throw new ClientError(400, 'Invalid showId.');
+    }
+    const sql = `
+    insert into "favorites" ("showId", "userId")
+    values($1, $2)
+    returning *;
+    `;
+    const params = [showId, userId];
+    const result = await db.query(sql, params);
+    const favorites = result.rows[0];
+    res.status(200).json(favorites);
+  } catch(err){
+    next(err);
+  }
+});
+
+app.get('/api/favorites/:userId', async(req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const sql = `
+    select "favorites".*,shows.title, shows.description, shows.image, shows.rating
+     from "favorites"
+     join "shows" on favorites."showId" = shows."showId"
+     where favorites."userId" = $1;
+     `;
+     const params = [userId];
+     const result = await db.query(sql, params);
+     res.status(200).json(result.rows);
   } catch(err){
     next(err);
   }

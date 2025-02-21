@@ -1,0 +1,46 @@
+.back-to-homepage{
+  display: flex;
+
+  font-size: 35px;
+}
+
+.show-details-layout{
+  min-height: 450px;
+  display: flex;
+}
+
+.show-card-details{
+  width: 100%;
+  height: 100%;
+}
+
+.show-header-details{
+  width: 50%;
+  justify-content: flex;
+}
+
+.show-description-details{
+  width: 50%;
+}
+
+.rating-details{
+  margin: 20px;
+  font-size: 40px;
+  color: orange;
+  height: calc(100%/3);
+}
+
+img .gundam-details{
+  size: 20px;
+  padding-right: 10px;
+}
+
+.fav-button{
+  padding: 20px;
+}
+
+.favorites{
+  padding-left: 200px;
+  padding-right: 200px;
+  border-radius: 20px;
+}
