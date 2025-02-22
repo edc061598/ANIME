@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 import './HomePage.css';
 
-interface shows {
+export type shows = {
   showId: number;
   title: string;
   description: string;
