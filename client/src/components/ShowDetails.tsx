@@ -93,7 +93,7 @@ export function ShowDetails() {
                 <img
                   className='gundam-details'
                   src="gundam unicorn.png"
-                  alt="Gundam Unicorn"
+             
                 />
                 {show.rating}/10
               </p>
