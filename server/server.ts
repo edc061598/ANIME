@@ -35,7 +35,7 @@ app.get('/api/anime', async (req, res, next) => {
   select *
   from "shows"
   order by "rating" desc
-  `;
+  ;`;
     const result = await db.query(sql);
     const animeShows = result.rows;
     res.status(200).json(animeShows);
@@ -109,6 +109,19 @@ app.get('/api/favorites/:userId', async(req, res, next) => {
     next(err);
   }
 });
+
+app.get('/api/favorites', async(req, res, next) => {
+  try {
+    const sql = `
+    select * from "favorites"
+    ;`;
+    const result = await db.query(sql);
+    const favoriteShows = result.rows;
+    res.status(200).json(favoriteShows);
+  } catch(err){
+    next(err);
+  }
+})
 
 /*
  * Handles paths that aren't handled by any other route handler.
