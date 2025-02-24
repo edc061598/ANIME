@@ -1,0 +1,40 @@
+/* .favorites-page {
+  padding: 20px;
+  color: white;
+}
+
+.favorites-page h1 {
+  margin-bottom: 20px;
+}
+
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+
+  gap: 20px;
+} */
+
+/* .favorite-card {
+  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+} */
+
+/* .favorite-card-image img {
+  width: 150px;
+  height: auto;
+}
+
+.favorite-card-info {
+  padding: 10px;
+  flex: 1;
+}
+
+.full-review {
+  background: orange;
+  color: #fff;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 5px;
+} */

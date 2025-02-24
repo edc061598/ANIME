@@ -90,7 +90,7 @@ export function Home() {
             <Link to={`/anime/${anime.showId}`}>
             <div key={anime.showId} className="show-card">
               <div className="show-card-image" style={{ backgroundImage: `url(${anime.image})` }}></div>
-              <Link to={'/anime/all-shows'}>
+              <Link to={`/anime/${anime.showId}`}>
               <h3>{anime.title}</h3>
               </Link>
               <p className="rating-score">{anime.rating}/10</p>
