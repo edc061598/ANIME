@@ -43,7 +43,7 @@ export function ShowDetails() {
 
   async function handleClick() {
     try {
-      const userId = 1;
+      const userId = showId;
       const url = `/api/favorites/${userId}`;
       const response = await fetch(url, {
         method: 'POST',
@@ -93,7 +93,7 @@ export function ShowDetails() {
                 <img
                   className='gundam-details'
                   src="gundam unicorn.png"
-             
+
                 />
                 {show.rating}/10
               </p>

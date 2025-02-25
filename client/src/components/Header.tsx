@@ -13,7 +13,7 @@ export function Header() {
 
       <div className="navbar-links">
         <Link to="/">Home</Link>
-        <Link to="/shows">Shows</Link>
+        <Link to="/all-shows">Shows</Link>
         <Link to="/favorites">Favorites</Link>
         <Link to="/reviews">Reviews</Link>
         <Link to="/about">About Us</Link>
