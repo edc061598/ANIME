@@ -138,6 +138,42 @@ app.get('/api/all-shows', async(req, res, next) => {
   }
 });
 
+app.post('/api/reviews', async(req, res, next) => {
+  try {
+    const {userId, showId, reviewText, rating} = req.body;
+    const sql = `
+    insert into "reviews" ("userId", "showId", "reviewText", "rating")
+    values ($1, $2, $3, $4)
+    returning *;
+    `;
+    const params = [userId, showId, reviewText, rating];
+    const result = await db.query(sql, params);
+    const reviewShows = result.rows[0];
+    res.status(201).json(reviewShows);
+  } catch(err){
+    next(err);
+  }
+});
+
+app.get('/api/reviews/:showId', async (req, res, next) => {
+  try {
+    const { showId } = req.params;
+    const sql = `
+      SELECT r.*, u."userName"
+      FROM "reviews" r
+      JOIN "users" u ON r."userId" = u."userId"
+      WHERE r."showId" = $1
+      ORDER BY r."createdAt" DESC;
+    `;
+    const params = [showId];
+    const result = await db.query(sql, params);
+    res.status(200).json(result.rows);
+  } catch (err) {
+    next(err);
+  }
+});
+
+
 /*
  * Handles paths that aren't handled by any other route handler.
  * It responds with `index.html` to support page refreshes with React Router.
