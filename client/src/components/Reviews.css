@@ -1,0 +1,142 @@
+.reviews-page-container {
+  padding: 20px;
+  background: #1c1c2e;
+  color: #fff;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.reviews-header h1 {
+  font-size: 2rem;
+}
+
+.view-all {
+  color: #ff6600;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+
+.review-form {
+  background: #2a2a40;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+
+.review-form h2 {
+  margin-top: 0;
+}
+
+.review-form textarea {
+  width: 100%;
+  height: 80px;
+  border-radius: 5px;
+  border: none;
+  margin: 10px 0;
+  padding: 10px;
+  resize: vertical;
+}
+
+.rating-input {
+  margin-bottom: 10px;
+}
+
+.review-form button {
+  background: #ff6600;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.review-form button:hover {
+  background: #ff4500;
+}
+
+/* Grid layout for the show cards */
+.reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+/* Each card in the grid */
+.review-card {
+  display: flex;
+  background: #2a1e42;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.review-card:hover {
+  transform: scale(1.02);
+}
+
+/* Image section on the left */
+.review-image-section {
+  flex-shrink: 0;
+  width: 120px;
+  /* Adjust as needed */
+  background: #000;
+}
+
+.review-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Text content on the right */
+.review-content-section {
+  padding: 15px;
+  flex: 1;
+}
+
+.review-content-section h2 {
+  margin: 0 0 10px;
+}
+
+.review-description {
+  margin-bottom: 15px;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+/* Footer area with rating and button */
+.review-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-rating {
+  color: #ff6600;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.put-review-button {
+  background: #ff6600;
+  border: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.put-review-button:hover {
+  background: #ff4500;
+}
