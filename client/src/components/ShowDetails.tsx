@@ -43,8 +43,8 @@ export function ShowDetails() {
 
   async function handleClick() {
     try {
-      const userId = showId;
-      const url = `/api/favorites/${userId}`;
+      const userId = 1;
+      const url = `/api/favorites`;
       const response = await fetch(url, {
         method: 'POST',
         headers: {
