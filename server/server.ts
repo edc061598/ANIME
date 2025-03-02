@@ -61,37 +61,6 @@ app.get('/api/anime/:id', async (req, res, next) => {
   }
 });
 
-app.post('/api/favorites/:userId', async(req, res, next) => {
-  try {
-    const {showId} = req.body;
-    const userId = req.params.userId;
-    if (
-      Number.isNaN(userId) ||
-      !Number.isInteger(+userId) ||
-      Number(userId) < 1
-    ) {
-      throw new ClientError(400, 'Invalid userId.');
-    }
-    if (
-      Number.isNaN(showId) ||
-      !Number.isInteger(+showId) ||
-      Number(showId) < 1
-    ) {
-      throw new ClientError(400, 'Invalid showId.');
-    }
-    const sql = `
-    insert into "favorites" ("showId", "userId")
-    values($1, $2)
-    returning *;
-    `;
-    const params = [showId, userId];
-    const result = await db.query(sql, params);
-    const favorites = result.rows[0];
-    res.status(200).json(favorites);
-  } catch(err){
-    next(err);
-  }
-});
 
 app.get('/api/favorites/:userId', async(req, res, next) => {
   try {
@@ -172,6 +141,46 @@ app.get('/api/reviews/:showId', async (req, res, next) => {
     next(err);
   }
 });
+
+app.post('/api/favorites/:userId', async (req, res, next) => {
+  try  {
+    const { userId } = req.params;
+    const sql = `
+    select favorites."favoritesText", favorites."rating", favorites."showId"
+    shows."title", shows."description", shows."image"
+    from "favorites"
+    join "shows" on favorites."showId" = shows."showsId"
+    where favorites."userId" = $1;
+    `;
+    const params = [userId];
+    const result = await db.query(sql, params);
+    const favoriteShows = result.rows[0];
+    res.status(200).json(favoriteShows);
+  } catch(err){
+    next(err);
+  }
+});
+
+app.post('/api/favorites', async (req, res, next) => {
+  try {
+    const { userId, showId, favoritesText, rating } = req.body;
+    if (!userId || !showId) {
+      throw new ClientError(400, 'userId and showId required');
+    }
+    const sql = `
+      INSERT INTO "favorites" ("userId", "showId", "favoritesText", "rating")
+      VALUES ($1, $2, $3, $4)
+      RETURNING *;
+    `;
+    const params = [userId, showId, favoritesText, rating];
+    const result = await db.query(sql, params);
+    const favoriteShow = result.rows[0];
+    res.status(201).json(favoriteShow);
+  } catch (err) {
+    next(err);
+  }
+});
+
 
 
 /*

@@ -41,7 +41,7 @@ INSERT INTO "reviews" ("userId", "showId", "reviewText", "rating", "createdAt") 
 (2, 5, 'Masterpiece in storytelling.', 9.7, NOW());
 
 -- Insert sample favorites
-INSERT INTO "favorites" ("userId", "showId", "createdAt") VALUES
+INSERT INTO "favorites" ("userId", "showId", "favoritesText", "rating", "createdAt") VALUES
 (1, 1, NOW()),  -- Alice loves Attack on Titan
 (1, 2, NOW()),  -- Alice also likes Death Note
 (2, 3, NOW()),  -- Bob likes Naruto
