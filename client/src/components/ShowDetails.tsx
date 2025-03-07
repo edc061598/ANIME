@@ -50,7 +50,7 @@ export function ShowDetails() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({showId })
+        body: JSON.stringify({showId, userId })
       });
       if (!response.ok) {
         console.error('Submission failed');

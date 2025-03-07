@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './HomePage.css';
+import { useUser } from "./useUser";
 
 export type shows = {
   showId: number;
@@ -16,6 +17,8 @@ export function Home() {
   const [loading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedAnime, setSelectedAnime] = useState<shows | null>(null);
+  const navigate = useNavigate();
+  const { user } = useUser();
 
   useEffect(() => {
     async function loadShows(){
@@ -37,6 +40,7 @@ export function Home() {
       }
     };
     loadShows();
+    console.log(user);
   }, []);
 
   if(loading) return <p>Loading anime shows...</p>
@@ -85,12 +89,12 @@ export function Home() {
           <h2>ALL SHOWS</h2>
           <Link to="/all-shows" className="view-all">View All →</Link>
         </div>
-        <div className="all-shows-grid">
+        <div  className="all-shows-grid">
           {animeList.map((anime) => (
-            <Link to={`/anime/${anime.showId}`}>
-            <div key={anime.showId} className="show-card">
+            <Link key={anime.showId} to={`/anime/${anime.showId}`}>
+            <div  className="show-card">
               <div className="show-card-image" style={{ backgroundImage: `url(${anime.image})` }}></div>
-          
+
               <h3>{anime.title}</h3>
 
               <p className="rating-score">{anime.rating}/10</p>

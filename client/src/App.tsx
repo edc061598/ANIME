@@ -7,6 +7,7 @@ import { AllShows } from './components/AllShows';
 import { Reviews } from './components/Reviews';
 import {ReviewDetails} from './components/ReviewDetails'
 import FavoritesPage from './components/Favorites';
+import AuthPage from './components/AuthPage';
 
 export default function App() {
   return (
@@ -19,6 +20,8 @@ export default function App() {
         <Route path='/reviews' element={<Reviews/>}/>
         <Route path='/reviews/:showId' element={<ReviewDetails/>}/>
         <Route path='/favorites' element={<FavoritesPage/>}/>
+        <Route path='/auth' element={<AuthPage/>} />
+          <Route path='/auth' element={<AuthPage />} />
         </Route>
       </Routes>
     </>

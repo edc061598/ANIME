@@ -20,8 +20,8 @@ export function Header() {
       </div>
 
       <div className="auth-buttons">
-        <Link to="/signup" className="signup-btn">Sign Up</Link>
-        <Link to="/login" className="login-btn">Login</Link>
+        <Link to="/auth" className="signup-btn">Sign Up</Link>
+        <Link to="/auth" className="login-btn">Login</Link>
       </div>
     </nav>
     <Outlet/>
