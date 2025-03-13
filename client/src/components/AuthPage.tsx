@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './AuthPage.css';
 import { useUser } from './useUser';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export default function AuthPage() {
   const [mode, setMode] = useState<'signup' | 'login'>('signup');
   const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const { handleSignIn} = useUser();
+  const navigate = useNavigate();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -27,12 +29,18 @@ export default function AuthPage() {
       }
       const data = await response.json();
       console.log('Registered ', data);
-      handleSignIn(data.payload, data.signedToken);
       alert(`${mode === 'signup' ? 'Signed up' : 'Logged in'} successfully!`);
+      if(mode === 'login'){
+        handleSignIn(data.payload, data.signedToken);
+        navigate('/');
+      } else {
+        setMode('login');
+      }
     } catch (err: any) {
       alert(err.message);
     }
   }
+
 
   return (
     <div className="auth-container">
@@ -54,7 +62,8 @@ export default function AuthPage() {
             </button>
             <button
               className={mode === 'login' ? 'active' : ''}
-              onClick={() => setMode('login')}
+              onClick={() => {setMode('login'); }}
+
             >
               Login
             </button>
@@ -82,9 +91,16 @@ export default function AuthPage() {
                 required
               />
             </div>
-            <button type="submit" className="auth-submit-btn">
-              {mode === 'signup' ? 'Sign Up' : 'Login'}
-            </button>
+            {mode === 'signup' ?
+              <button type='submit' className='auth-submit-btn'
+              >
+                Sign Up
+              </button>
+              :
+              <button type='submit' className='auth-submit-btn'>
+                Login
+              </button>
+          }
           </form>
         </div>
       </div>

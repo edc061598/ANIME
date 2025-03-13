@@ -8,22 +8,24 @@ import { Reviews } from './components/Reviews';
 import {ReviewDetails} from './components/ReviewDetails'
 import FavoritesPage from './components/Favorites';
 import AuthPage from './components/AuthPage';
+import { UserProvider } from './components/UserContext';
 
 export default function App() {
   return (
     <>
-      <Routes>
+    <UserProvider>
+        <Routes>
         <Route path="/" element={<Header />}>
-        <Route index element={<Home />} />
-        <Route path='/anime/:showId' element={<ShowDetails/>}/>
-        <Route path='/all-shows' element={<AllShows/>}/>
-        <Route path='/reviews' element={<Reviews/>}/>
-        <Route path='/reviews/:showId' element={<ReviewDetails/>}/>
-        <Route path='/favorites' element={<FavoritesPage/>}/>
-        <Route path='/auth' element={<AuthPage/>} />
-          <Route path='/auth' element={<AuthPage />} />
+          <Route index element={<Home />} />
+          <Route path='/anime/:showId' element={<ShowDetails/>}/>
+          <Route path='/all-shows' element={<AllShows/>}/>
+          <Route path='/reviews' element={<Reviews/>}/>
+          <Route path='/reviews/:showId' element={<ReviewDetails/>}/>
+          <Route path='/favorites' element={<FavoritesPage/>}/>
         </Route>
+          <Route index path='/auth' element={<AuthPage />} />
       </Routes>
+      </UserProvider>
     </>
   );
 }
