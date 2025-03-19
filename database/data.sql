@@ -1,8 +1,8 @@
 -- Insert sample users
-INSERT INTO "users" ("userName", "email", "passwordHash") VALUES
-('Alice Johnson', 'alice@example.com', 'hashedpassword1'),
-('Bob Smith', 'bob@example.com', 'hashedpassword2'),
-('Charlie Brown', 'charlie@example.com', 'hashedpassword3');
+INSERT INTO "users" ("userId", "userName", "passwordHash") VALUES
+(1, 'autodidact', 'hashedpassword1'),
+(2, 'admin', 'hashedpassword2'),
+(3, 'charlie', 'hashedpassword3');
 
 -- Insert sample anime shows
 INSERT INTO "shows" ("title", "description", "image", "rating") VALUES
@@ -41,7 +41,7 @@ INSERT INTO "reviews" ("userId", "showId", "reviewText", "rating", "createdAt") 
 (2, 5, 'Masterpiece in storytelling.', 9.7, NOW());
 
 -- Insert sample favorites
-INSERT INTO "favorites" ("userId", "showId", "favoritesText", "rating", "createdAt") VALUES
+INSERT INTO "favorites" ("userId", "showId", "createdAt") VALUES
 (1, 1, NOW()),  -- Alice loves Attack on Titan
 (1, 2, NOW()),  -- Alice also likes Death Note
 (2, 3, NOW()),  -- Bob likes Naruto
