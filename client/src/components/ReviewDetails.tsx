@@ -126,7 +126,6 @@ export function ReviewDetails() {
         throw new Error('Failed to update review');
       }
       const updatedReview = await res.json();
-      // Update local state with the updated review
       setReviews(prev =>
         prev.map(r => (r.reviewId === reviewId ? updatedReview : r))
       );
@@ -224,13 +223,18 @@ export function ReviewDetails() {
                 </div>
               ) : (
                 <div className="review-display">
-                  <p>{review.reviewText}</p>
-                  <p>Rating: {parseFloat(review.rating).toFixed(1)}/10</p>
-                  <small>{new Date(review.createdAt).toLocaleString()}</small>
+                  <div className="review-display-details">
+                    <p>{review.reviewText}</p>
+                    <p>Rating: {parseFloat(review.rating).toFixed(1)}/10</p>
+                    <small>{new Date(review.createdAt).toLocaleString()}</small>
+                  </div>
+
                   {review.userId === userId && (
+                    <div className='review-display-button'>
                     <button onClick={() => startEditing(review)}>
                       Edit
                     </button>
+                    </div>
                   )}
                 </div>
               )}

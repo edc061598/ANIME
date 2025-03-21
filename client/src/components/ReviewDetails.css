@@ -127,3 +127,31 @@
 .review-backpage Link {
   background-color: #01013e;
 }
+
+.review-display {
+  display: flex;
+  width: 100%;
+  height: 100%
+}
+
+.review-display-button{
+  padding-top: 50px;
+  padding-left: 50px;
+}
+
+.review-display-button button{
+  size: 0svh;
+}
+
+.edit-review-form button {
+  padding: 10px;
+}
+
+.edit-review-form textarea{
+  width: 100%;
+}
+
+.edit-review-form input {
+  width: 100%;
+  padding: 10px;
+}

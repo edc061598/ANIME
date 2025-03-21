@@ -60,10 +60,6 @@ export function Home() {
               <img src="gundam unicorn.png"></img>
               <span>{selectedAnime.rating}/10</span>
             </div>
-            <div className="buttons">
-              <button className="show-review">Show review</button>
-              <button className="edit-review">Edit review/list</button>
-            </div>
           </div>
           <div className="anime-layout">
             {animeList.map((anime) => (
