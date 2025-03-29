@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { shows } from './HomePage';
 import './AllShows.css';
@@ -27,43 +27,46 @@ export function AllShows() {
     fetchShows();
   }, []);
 
-  const filterShows = allShows.filter(show =>
-    show.rating >= minRating);
+  const filterShows = allShows.filter((show) => show.rating >= minRating);
 
   if (isLoading) return <p>Loading shows...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
-<>
-      <div className='all-shows-title'>
+    <>
+      <div className="all-shows-title">
         <h1>Shows By Filter</h1>
       </div>
-    <div className='return-to-home-link'>
-      <Link to={'/'}>
-      <h2>Return to the homepage</h2>
+      <div className="return-to-home-link">
+        <Link to={'/'}>
+          <h2>Return to the homepage</h2>
         </Link>
-    </div>
+      </div>
 
-    <div className='rating-filter'>
-      <label>Filter by Rating: {minRating} </label>
-      <input
-      type='range'
-      step='0.5'
-      min='0'
-      max='10'
-      value={minRating}
-      onChange={(e) => setMinRating(parseFloat(e.target.value))}
-      />
-    </div>
+      <div className="rating-filter">
+        <label>Filter by Rating: {minRating} </label>
+        <input
+          type="range"
+          step="0.5"
+          min="0"
+          max="10"
+          value={minRating}
+          onChange={(e) => setMinRating(parseFloat(e.target.value))}
+        />
+      </div>
       <div className="all-shows-layout">
         <div className="all-shows-grid">
           {filterShows.length > 0 ? (
-            filterShows.map(show => (
+            filterShows.map((show) => (
               <div key={show.showId} className="show-card">
                 <h3>{show.title}</h3>
                 <Link to={`/anime/${show.showId}`}>
-                  <div className='image-absolute'>
-                    <img src={show.image} alt={show.title} className='all-shows-image' />
+                  <div className="image-absolute">
+                    <img
+                      src={show.image}
+                      alt={show.title}
+                      className="all-shows-image"
+                    />
                     <p>Rating: {show.rating}/10</p>
                   </div>
                 </Link>
@@ -76,7 +79,6 @@ export function AllShows() {
       </div>
     </>
   );
-
 }
 
 export default AllShows;
