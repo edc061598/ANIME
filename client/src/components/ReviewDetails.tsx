@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import './ReviewDetails.css';
 
 interface ShowData {
@@ -22,12 +22,10 @@ interface Review {
 
 export function ReviewDetails() {
   const { showId } = useParams<{ showId: string }>();
-  const navigate = useNavigate();
 
   const [show, setShow] = useState<ShowData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
 
   const [reviewText, setReviewText] = useState('');
   const [reviewRating, setReviewRating] = useState(0);
@@ -60,7 +58,6 @@ export function ReviewDetails() {
     }
   }, [showId]);
 
-
   async function fetchReviewsForShow() {
     try {
       const res = await fetch(`/api/reviews/${showId}`);
@@ -78,7 +75,7 @@ export function ReviewDetails() {
     if (showId) {
       fetchReviewsForShow();
     }
-  }, [showId]);
+  }, [showId, fetchReviewsForShow]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -92,8 +89,8 @@ export function ReviewDetails() {
           userId,
           showId: Number(showId),
           reviewText,
-          rating: reviewRating
-        })
+          rating: reviewRating,
+        }),
       });
       if (!res.ok) {
         throw new Error('Failed to submit review');
@@ -104,7 +101,6 @@ export function ReviewDetails() {
       setReviewRating(0);
 
       await fetchReviewsForShow();
-
     } catch (err: any) {
       alert(err.message);
     } finally {
@@ -119,16 +115,16 @@ export function ReviewDetails() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           reviewText: editReviewText,
-          rating: editReviewRating
-        })
+          rating: editReviewRating,
+        }),
       });
       if (!res.ok) {
         throw new Error('Failed to update review');
       }
       const updatedReview = await res.json();
       // Update local state with the updated review
-      setReviews(prev =>
-        prev.map(r => (r.reviewId === reviewId ? updatedReview : r))
+      setReviews((prev) =>
+        prev.map((r) => (r.reviewId === reviewId ? updatedReview : r))
       );
       setEditReviewId(null);
     } catch (err: any) {
@@ -142,28 +138,19 @@ export function ReviewDetails() {
     setEditReviewRating(Number(review.rating));
   }
 
-
   if (isLoading) return <p>Loading show details...</p>;
   if (error) return <p>Error: {error}</p>;
   if (!show) return null;
 
-  const ratingOutOf10 = (show.rating);
-
   return (
     <div className="review-details-page">
-      <div className='review-backpage'>
-        <Link to='/reviews'>
-          Return to Reviews
-        </Link>
+      <div className="review-backpage">
+        <Link to="/reviews">Return to Reviews</Link>
       </div>
 
       <div
         className="show-hero"
-        style={{ backgroundImage: `url(${show.image})` }}
-      >
-      </div>
-
-
+        style={{ backgroundImage: `url(${show.image})` }}></div>
 
       <div className="review-form-section">
         <h2>WRITE YOUR REVIEW HERE...</h2>
@@ -200,7 +187,14 @@ export function ReviewDetails() {
           <p>No reviews yet. Be the first to review!</p>
         ) : (
           reviews.map((review) => (
-            <div key={review.reviewId} className="review-card" style={{ border: '1px solid #ccc', margin: '10px 0', padding: '10px' }}>
+            <div
+              key={review.reviewId}
+              className="review-card"
+              style={{
+                border: '1px solid #ccc',
+                margin: '10px 0',
+                padding: '10px',
+              }}>
               {editReviewId === review.reviewId ? (
                 <div className="edit-review-form">
                   <textarea
@@ -213,14 +207,14 @@ export function ReviewDetails() {
                     min="0"
                     max="10"
                     value={editReviewRating}
-                    onChange={(e) => setEditReviewRating(Number(e.target.value))}
+                    onChange={(e) =>
+                      setEditReviewRating(Number(e.target.value))
+                    }
                   />
                   <button onClick={() => handleUpdate(review.reviewId)}>
                     Save
                   </button>
-                  <button onClick={() => setEditReviewId(null)}>
-                    Cancel
-                  </button>
+                  <button onClick={() => setEditReviewId(null)}>Cancel</button>
                 </div>
               ) : (
                 <div className="review-display">
@@ -228,9 +222,7 @@ export function ReviewDetails() {
                   <p>Rating: {parseFloat(review.rating).toFixed(1)}/10</p>
                   <small>{new Date(review.createdAt).toLocaleString()}</small>
                   {review.userId === userId && (
-                    <button onClick={() => startEditing(review)}>
-                      Edit
-                    </button>
+                    <button onClick={() => startEditing(review)}>Edit</button>
                   )}
                 </div>
               )}

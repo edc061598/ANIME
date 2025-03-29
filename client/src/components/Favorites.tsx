@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import './Favorites.css';
 
 interface Favorite {
@@ -23,7 +22,9 @@ export function FavoritesPage() {
       try {
         const response = await fetch(`/api/favorites/${userId}`);
         if (!response.ok) {
-          throw new Error(`Failed to fetch favorites. Status: ${response.status}`);
+          throw new Error(
+            `Failed to fetch favorites. Status: ${response.status}`
+          );
         }
         const data = (await response.json()) as Favorite[];
         setFavorites(data);
@@ -39,12 +40,12 @@ export function FavoritesPage() {
   async function handleDelete(fav: Favorite) {
     try {
       const response = await fetch(`/api/favorites/${userId}/${fav.showId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
       });
       if (!response.ok) {
         throw new Error('Failed to delete favorite');
       }
-      setFavorites(prev => prev.filter(item => item.showId !== fav.showId));
+      setFavorites((prev) => prev.filter((item) => item.showId !== fav.showId));
       alert('Show has been removed!!! :(');
     } catch (err: any) {
       alert(err.message);
@@ -68,8 +69,9 @@ export function FavoritesPage() {
               <p>{fav.description.slice(0, 120)}...</p>
 
               <p className="rating-score">🔥 {fav.rating}/10</p>
-              <button onClick={() => handleDelete(fav)}
-              className='delete-button-favorites'>
+              <button
+                onClick={() => handleDelete(fav)}
+                className="delete-button-favorites">
                 Remove from favorites
               </button>
             </div>

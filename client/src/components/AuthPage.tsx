@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 import './AuthPage.css';
 import { useUser } from './useUser';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export default function AuthPage() {
   const [mode, setMode] = useState<'signup' | 'login'>('signup');
   const [userName, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { handleSignIn} = useUser();
+  const { handleSignIn } = useUser();
   const navigate = useNavigate();
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     try {
-      const endpoint = mode === 'signup' ? '/api/auth/sign-up' : '/api/auth/sign-in';
+      const endpoint =
+        mode === 'signup' ? '/api/auth/sign-up' : '/api/auth/sign-in';
       const body = {
         userName,
         password,
@@ -30,7 +31,7 @@ export default function AuthPage() {
       const data = await response.json();
       console.log('Registered ', data);
       alert(`${mode === 'signup' ? 'Signed up' : 'Logged in'} successfully!`);
-      if(mode === 'login'){
+      if (mode === 'login') {
         handleSignIn(data.payload, data.signedToken);
         navigate('/');
       } else {
@@ -41,30 +42,29 @@ export default function AuthPage() {
     }
   }
 
-
   return (
     <div className="auth-container">
       <div className="auth-content">
         <div className="auth-text">
           <h2>BE ABLE TO RATE YOUR FAVORITE SHOWS!!!</h2>
           <p>
-            Sign Up Now To Rate Your Favorite Shows And Provide Your Honest Reviews.
-            This Platform Allows You To Speak Your Mind And Create Your Own Customizable Favorites List
+            Sign Up Now To Rate Your Favorite Shows And Provide Your Honest
+            Reviews. This Platform Allows You To Speak Your Mind And Create Your
+            Own Customizable Favorites List
           </p>
         </div>
         <div className="auth-form-container">
           <div className="auth-toggle">
             <button
               className={mode === 'signup' ? 'active' : ''}
-              onClick={() => setMode('signup')}
-            >
+              onClick={() => setMode('signup')}>
               Sign Up
             </button>
             <button
               className={mode === 'login' ? 'active' : ''}
-              onClick={() => {setMode('login'); }}
-
-            >
+              onClick={() => {
+                setMode('login');
+              }}>
               Login
             </button>
           </div>
@@ -91,16 +91,15 @@ export default function AuthPage() {
                 required
               />
             </div>
-            {mode === 'signup' ?
-              <button type='submit' className='auth-submit-btn'
-              >
+            {mode === 'signup' ? (
+              <button type="submit" className="auth-submit-btn">
                 Sign Up
               </button>
-              :
-              <button type='submit' className='auth-submit-btn'>
+            ) : (
+              <button type="submit" className="auth-submit-btn">
                 Login
               </button>
-          }
+            )}
           </form>
         </div>
       </div>
