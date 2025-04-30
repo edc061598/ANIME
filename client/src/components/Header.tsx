@@ -18,7 +18,6 @@ export function Header() {
           <Link to="/all-shows">Shows</Link>
           <Link to="/favorites">Favorites</Link>
           <Link to="/reviews">Reviews</Link>
-          <Link to="/about">About Us</Link>
         </div>
 
         <div className="auth-buttons">

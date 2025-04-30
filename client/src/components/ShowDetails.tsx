@@ -4,7 +4,7 @@ import { type shows } from './HomePage';
 import './ShowDetails.css';
 
 export function ShowDetails() {
-  let { showId } = useParams<{ showId: string }>();
+  const { showId } = useParams<{ showId: string }>();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [show, setShow] = useState<shows>();
@@ -48,9 +48,9 @@ export function ShowDetails() {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({showId, userId })
+        body: JSON.stringify({ showId, userId }),
       });
       if (!response.ok) {
         console.error('Submission failed');
@@ -69,46 +69,44 @@ export function ShowDetails() {
     return (
       <div>
         <h1>Error</h1>
-        <Link to='/'>Back to Homepage</Link>
+        <Link to="/">Back to Homepage</Link>
       </div>
     );
   }
   if (show) {
     return (
       <>
-        <div className='back-to-homepage'>
-          <Link to='/' className="show-homepage-link">
+        <div className="back-to-homepage">
+          <Link to="/" className="show-homepage-link">
             Back to Homepage
           </Link>
         </div>
         <h1>Show Synopsis</h1>
-        <div className='show-details-layout'>
-          <div className='show-description-details'>
+        <div className="show-details-layout">
+          <div className="show-description-details">
             <h1>{show.title}</h1>
             <span>
               <p>{show.description}</p>
             </span>
-            <div className='rating-details'>
-              <p>
-                <img
-                  className='gundam-details'
-                  src="gundam unicorn.png"
-
-                />
+            <div className="rating-details">
+              <p className="gundam-details-layout">
+                <div>
+                  <img className="gundam-details" src="/images/logo.svg"></img>
+                </div>
                 {show.rating}/10
               </p>
             </div>
-            <div className='fav-button'>
-              <button onClick={handleClick} className='favorites'>
+            <div className="fav-button">
+              <button onClick={handleClick} className="favorites">
                 Add To Favorites
               </button>
             </div>
           </div>
-          <div className='show-header-details'>
+          <div className="show-header-details">
             <img
               src={show.image}
               alt={show.title}
-              className='show-card-details'
+              className="show-card-details"
             />
           </div>
         </div>

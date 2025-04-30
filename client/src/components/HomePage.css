@@ -26,6 +26,11 @@
   font-weight: bold;
 }
 
+.homepage-logo {
+  width: 50%;
+  object-fit: contain;
+}
+
 .anime-info p {
   font-size: 1rem;
   line-height: 1.6;
@@ -66,7 +71,7 @@ button:hover {
   max-width: 800px;
 }
 
-.anime-card{
+.anime-card {
   position: relative;
   overflow: hidden;
   border-radius: 15px;
@@ -87,6 +92,7 @@ button:hover {
   background-color: #1a1a2e;
   border-radius: 10px;
 }
+
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -125,13 +131,12 @@ button:hover {
   transition: ease-in-out 1s;
 }
 
-.show-card:hover{
-  transform: scale(1.2)
+.show-card:hover {
+  transform: scale(1.2);
 }
 
 .rating-score {
   color: orange;
   font-weight: bold;
   margin-top: 5px;
-
 }

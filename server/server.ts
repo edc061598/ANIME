@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- Remove when used */
 import 'dotenv/config';
 import express from 'express';
-import pg, { Client } from 'pg';
-import { ClientError, errorMiddleware,authMiddleware } from './lib/index.js';
+import pg from 'pg';
+import { ClientError, errorMiddleware } from './lib/index.js';
 import jwt from 'jsonwebtoken';
-import { nextTick } from 'process';
-import { markAsUntransferable } from 'worker_threads';
 import argon2 from 'argon2';
-
 
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
@@ -58,13 +55,12 @@ app.get('/api/anime/:id', async (req, res, next) => {
     const result = await db.query(sql, params);
     const animeShowId = result.rows[0];
     res.status(200).json(animeShowId);
-  } catch(err){
+  } catch (err) {
     next(err);
   }
 });
 
-
-app.get('/api/favorites/:userId', async(req, res, next) => {
+app.get('/api/favorites/:userId', async (req, res, next) => {
   try {
     const { userId } = req.params;
     const sql = `
@@ -73,15 +69,15 @@ app.get('/api/favorites/:userId', async(req, res, next) => {
      join "shows" on favorites."showId" = shows."showId"
      where favorites."userId" = $1;
      `;
-     const params = [userId];
-     const result = await db.query(sql, params);
-     res.status(200).json(result.rows);
-  } catch(err){
+    const params = [userId];
+    const result = await db.query(sql, params);
+    res.status(200).json(result.rows);
+  } catch (err) {
     next(err);
   }
 });
 
-app.get('/api/favorites', async(req, res, next) => {
+app.get('/api/favorites', async (req, res, next) => {
   try {
     const sql = `
     select * from "favorites"
@@ -90,12 +86,12 @@ app.get('/api/favorites', async(req, res, next) => {
     const result = await db.query(sql);
     const favoriteShows = result.rows;
     res.status(200).json(favoriteShows);
-  } catch(err){
+  } catch (err) {
     next(err);
   }
-})
+});
 
-app.get('/api/all-shows', async(req, res, next) => {
+app.get('/api/all-shows', async (req, res, next) => {
   try {
     const sql = `
     select * from "shows"
@@ -104,14 +100,14 @@ app.get('/api/all-shows', async(req, res, next) => {
     const result = await db.query(sql);
     const allShows = result.rows;
     res.status(200).json(allShows);
-  } catch(err){
+  } catch (err) {
     next(err);
   }
 });
 
-app.post('/api/reviews', async(req, res, next) => {
+app.post('/api/reviews', async (req, res, next) => {
   try {
-    const {userId, showId, reviewText, rating} = req.body;
+    const { userId, showId, reviewText, rating } = req.body;
     const sql = `
     insert into "reviews" ("userId", "showId", "reviewText", "rating")
     values ($1, $2, $3, $4)
@@ -121,7 +117,7 @@ app.post('/api/reviews', async(req, res, next) => {
     const result = await db.query(sql, params);
     const reviewShows = result.rows[0];
     res.status(201).json(reviewShows);
-  } catch(err){
+  } catch (err) {
     next(err);
   }
 });
@@ -147,7 +143,6 @@ app.put('/api/reviews/:reviewId', async (req, res, next) => {
   }
 });
 
-
 app.get('/api/reviews/:showId', async (req, res, next) => {
   try {
     const { showId } = req.params;
@@ -166,45 +161,45 @@ app.get('/api/reviews/:showId', async (req, res, next) => {
   }
 });
 
-app.put('/api/reviews/:reviewId', async(req, res, next) => {
-  try{
-    const { reviewId } = req.params;
-    const {reviewText, rating} = req.body;
-    const sql = `
-     update "reviews"
-     set "reviewText" = $1, "rating" = $2
-     where "reviewId" = $3
-     returning * ;
-     `;
-     const params = [reviewText, rating, reviewId];
-     const result = await db.query(sql, params);
-     if(!result){
-      console.log(`${result} not found`);
-     }
-     res.status(200).json(result.rows[0]);
-  } catch(err){
-    next(err);
-  }
-})
+// app.put('/api/reviews/:reviewId', async(req, res, next) => {
+//   try{
+//     const { reviewId } = req.params;
+//     const {reviewText, rating} = req.body;
+//     const sql = `
+//      update "reviews"
+//      set "reviewText" = $1, "rating" = $2
+//      where "reviewId" = $3
+//      returning * ;
+//      `;
+//      const params = [reviewText, rating, reviewId];
+//      const result = await db.query(sql, params);
+//      if(!result){
+//       console.log(`${result} not found`);
+//      }
+//      res.status(200).json(result.rows[0]);
+//   } catch(err){
+//     next(err);
+//   }
+// })
 
-app.get('/api/favorites/:userId', async (req, res, next) => {
-  try  {
-    const { userId } = req.params;
-    const sql = `
-    select favorites."favoritesText", favorites."rating", favorites."showId"
-    shows."title", shows."description", shows."image"
-    from "favorites"
-    join "shows" on favorites."showId" = shows."showsId"
-    where favorites."userId" = $1;
-    `;
-    const params = [userId];
-    const result = await db.query(sql, params);
-    const favoriteShows = result.rows[0];
-    res.status(200).json(favoriteShows);
-  } catch(err){
-    next(err);
-  }
-});
+// app.get('/api/favorites/:userId', async (req, res, next) => {
+//   try  {
+//     const { userId } = req.params;
+//     const sql = `
+//     select favorites."favoritesText", favorites."rating", favorites."showId"
+//     shows."title", shows."description", shows."image"
+//     from "favorites"
+//     join "shows" on favorites."showId" = shows."showsId"
+//     where favorites."userId" = $1;
+//     `;
+//     const params = [userId];
+//     const result = await db.query(sql, params);
+//     const favoriteShows = result.rows[0];
+//     res.status(200).json(favoriteShows);
+//   } catch(err){
+//     next(err);
+//   }
+// });
 
 app.post('/api/favorites', async (req, res, next) => {
   try {
@@ -230,20 +225,20 @@ type User = {
   userId: number;
   username: string;
   hashedPassword: string;
-}
+};
 
 type Auth = {
-  userName:string;
+  userName: string;
   password: string;
-}
+};
 
 const hashkey = process.env.TOKEN_SECRET;
-if (!hashkey) throw new Error ('TOKEN_SECRET  not found in .env');
+if (!hashkey) throw new Error('TOKEN_SECRET  not found in .env');
 
 app.post('/api/auth/sign-up', async (req, res, next) => {
-  try{
-    const { userName, password} = req.body;
-    if(!userName || !password){
+  try {
+    const { userName, password } = req.body;
+    if (!userName || !password) {
       throw new ClientError(400, 'userName and password are required fields');
     }
     const hashedPassword = await argon2.hash(password);
@@ -255,12 +250,12 @@ app.post('/api/auth/sign-up', async (req, res, next) => {
     const body = [userName, hashedPassword];
     const result = await db.query(sql, body);
     const userResult = result.rows[0];
-    if(!userResult){
+    if (!userResult) {
       throw new ClientError(404, 'user not found');
     }
 
     return res.status(201).json(userResult);
-  } catch(err){
+  } catch (err) {
     next(err);
   }
 });
@@ -268,7 +263,7 @@ app.post('/api/auth/sign-up', async (req, res, next) => {
 app.post('/api/auth/sign-in', async (req, res, next) => {
   try {
     const { userName, password } = req.body as Partial<Auth>;
-    if(!userName || !password){
+    if (!userName || !password) {
       throw new ClientError(401, 'invalid login');
     }
     const sql = `
@@ -279,21 +274,20 @@ app.post('/api/auth/sign-in', async (req, res, next) => {
     `;
     const result = await db.query(sql, [userName]);
     const user = result.rows[0];
-    if(!user){
+    if (!user) {
       throw new ClientError(401, 'user not found');
     }
     const passwordMatch = await argon2.verify(user.passwordHash, password);
-    if(!passwordMatch) {
+    if (!passwordMatch) {
       throw new ClientError(401, 'password is not found');
     }
     const payload = {
       userId: user.userId,
-      username: user.username,
-    }
+      username: userName,
+    };
     const signedToken = jwt.sign(payload, hashkey);
-    return res.status(200).json({payload, signedToken});
-
-  } catch(err){
+    return res.status(200).json({ payload, signedToken });
+  } catch (err) {
     next(err);
   }
 });

@@ -15,10 +15,6 @@ export function Reviews() {
   const { showId } = useParams<{ showId: string }>();
 
   const [animeList, setAnimeList] = useState<ShowData[]>([]);
-  // const [reviewText, setReviewText] = useState('');
-  // const [rating, setRating] = useState(0);
-  // const [submitting, setSubmitting] = useState(false);
-
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,34 +35,6 @@ export function Reviews() {
     }
     fetchShows();
   }, [showId]);
-
-  // async function handleSubmit(e: React.FormEvent) {
-  //   e.preventDefault();
-  //   setSubmitting(true);
-  //   try {
-  //     const userId = 1;
-  //     const response = await fetch('/api/reviews', {
-  //       method: 'POST',
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify({
-  //         userId,
-  //         showId: Number(showId),
-  //         reviewText,
-  //         rating
-  //       })
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error('Failed to submit review');
-  //     }
-  //     alert('Review submitted!');
-  //     setReviewText('');
-  //     setRating(0);
-  //   } catch (err: any) {
-  //     alert(err.message);
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // }
 
   if (loading) return <p>Loading shows...</p>;
   if (error) return <p>Error: {error}</p>;
