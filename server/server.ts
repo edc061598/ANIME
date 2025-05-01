@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars -- Remove when used */
 import 'dotenv/config';
 import express from 'express';
-import pg from 'pg';
+import pg, { Client } from 'pg';
 import { ClientError, errorMiddleware } from './lib/index.js';
 import jwt from 'jsonwebtoken';
 import argon2 from 'argon2';
@@ -63,6 +63,9 @@ app.get('/api/anime/:id', async (req, res, next) => {
 app.get('/api/favorites/:userId', async (req, res, next) => {
   try {
     const { userId } = req.params;
+    if (!userId) {
+      throw new ClientError(400, 'userId required');
+    }
     const sql = `
     select "favorites".*,shows.title, shows.description, shows.image, shows.rating
      from "favorites"
@@ -85,6 +88,9 @@ app.get('/api/favorites', async (req, res, next) => {
     ;`;
     const result = await db.query(sql);
     const favoriteShows = result.rows;
+    if (!favoriteShows) {
+      throw new ClientError(404, 'favoriteShows does not exist');
+    }
     res.status(200).json(favoriteShows);
   } catch (err) {
     next(err);
@@ -108,6 +114,12 @@ app.get('/api/all-shows', async (req, res, next) => {
 app.post('/api/reviews', async (req, res, next) => {
   try {
     const { userId, showId, reviewText, rating } = req.body;
+    if (!userId || !showId || !reviewText || !rating) {
+      throw new ClientError(
+        401,
+        'userId, showId, reviewText and rating required'
+      );
+    }
     const sql = `
     insert into "reviews" ("userId", "showId", "reviewText", "rating")
     values ($1, $2, $3, $4)
@@ -126,6 +138,12 @@ app.put('/api/reviews/:reviewId', async (req, res, next) => {
   try {
     const { reviewId } = req.params;
     const { reviewText, rating } = req.body;
+    if (!reviewId) {
+      throw new ClientError(401, 'valid reviewId required');
+    }
+    if (!reviewText || !rating) {
+      throw new ClientError(400, 'reviewText or rating required');
+    }
     const sql = `
       UPDATE "reviews"
       SET "reviewText" = $1, "rating" = $2
@@ -160,46 +178,6 @@ app.get('/api/reviews/:showId', async (req, res, next) => {
     next(err);
   }
 });
-
-// app.put('/api/reviews/:reviewId', async(req, res, next) => {
-//   try{
-//     const { reviewId } = req.params;
-//     const {reviewText, rating} = req.body;
-//     const sql = `
-//      update "reviews"
-//      set "reviewText" = $1, "rating" = $2
-//      where "reviewId" = $3
-//      returning * ;
-//      `;
-//      const params = [reviewText, rating, reviewId];
-//      const result = await db.query(sql, params);
-//      if(!result){
-//       console.log(`${result} not found`);
-//      }
-//      res.status(200).json(result.rows[0]);
-//   } catch(err){
-//     next(err);
-//   }
-// })
-
-// app.get('/api/favorites/:userId', async (req, res, next) => {
-//   try  {
-//     const { userId } = req.params;
-//     const sql = `
-//     select favorites."favoritesText", favorites."rating", favorites."showId"
-//     shows."title", shows."description", shows."image"
-//     from "favorites"
-//     join "shows" on favorites."showId" = shows."showsId"
-//     where favorites."userId" = $1;
-//     `;
-//     const params = [userId];
-//     const result = await db.query(sql, params);
-//     const favoriteShows = result.rows[0];
-//     res.status(200).json(favoriteShows);
-//   } catch(err){
-//     next(err);
-//   }
-// });
 
 app.post('/api/favorites', async (req, res, next) => {
   try {

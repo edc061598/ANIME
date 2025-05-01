@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import './ReviewDetails.css';
 
@@ -75,7 +75,7 @@ export function ReviewDetails() {
     if (showId) {
       fetchReviewsForShow();
     }
-  }, [showId, fetchReviewsForShow]);
+  }, [showId, useCallback(fetchReviewsForShow, [])]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
